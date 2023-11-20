@@ -32,14 +32,18 @@ resource "aws_elasticache_subnet_group" "main" {
   }
 }
 
- resource "aws_elasticache_cluster" "main" {
-   cluster_id           = "${var.env}-${var.component}"
-   engine               = "redis"
-   node_type            = var.ec_node_type
-   num_cache_nodes      = var.ec_node_count
-   parameter_group_name = "default.redis6.x"
-   engine_version       = "6.2"
-   port                 = 6379
-   subnet_group_name    = aws_elasticache_subnet_group.main.name
-   security_group_ids = [aws_security_group.main.id]
+ resource "aws_elasticache_replication_group" "main" {
+   automatic_failover_enabled  = true
+   preferred_cache_cluster_azs = ["us-west-2a", "us-west-2b"]
+   replication_group_id        = "${var.env}-${var.component}"
+   description                 = "${var.env}-${var.component}"
+   node_type                   = var.ec_node_type
+   num_cache_clusters          = var.ec_node_count
+   parameter_group_name        = "default.redis6.x"
+   port                        = 6379
+   subnet_group_name           = aws_elasticache_subnet_group.main.name
+   security_group_ids          = [aws_security_group.main.id]
+   at_rest_encryption_enabled  = true
+   transit_encryption_enabled  = true
+   kms_key_id                  = var.kms_key_id
  }
