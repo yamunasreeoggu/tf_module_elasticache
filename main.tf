@@ -34,7 +34,7 @@ resource "aws_elasticache_subnet_group" "main" {
 
  resource "aws_elasticache_replication_group" "main" {
    automatic_failover_enabled  = true
-   preferred_cache_cluster_azs = ["us-west-2a", "us-west-2b"]
+   preferred_cache_cluster_azs = ["us-east-1a", "us-east-1b"]
    replication_group_id        = "${var.env}-${var.component}"
    description                 = "${var.env}-${var.component}"
    node_type                   = var.ec_node_type
