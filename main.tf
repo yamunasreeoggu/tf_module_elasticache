@@ -34,7 +34,6 @@ resource "aws_elasticache_subnet_group" "main" {
 
  resource "aws_elasticache_replication_group" "main" {
    automatic_failover_enabled  = true
-   preferred_cache_cluster_azs = ["us-east-1a", "us-east-1b"]
    replication_group_id        = "${var.env}-${var.component}"
    description                 = "${var.env}-${var.component}"
    node_type                   = var.ec_node_type
@@ -46,4 +45,6 @@ resource "aws_elasticache_subnet_group" "main" {
    at_rest_encryption_enabled  = true
    transit_encryption_enabled  = true
    kms_key_id                  = var.kms_key_id
+   engine                      = "redis"
+   engine_version              = "6.2"
  }
